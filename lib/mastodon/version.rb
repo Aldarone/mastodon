@@ -17,7 +17,7 @@ module Mastodon
     end
 
     def pre
-      'rc4'
+      'rc6'
     end
 
     def flags
