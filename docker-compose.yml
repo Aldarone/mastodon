@@ -72,3 +72,4 @@ services:
       - redis
     volumes:
       - mstdn-system:/mastodon/public/system
+      - ./public/packs:/mastodon/public/packs
