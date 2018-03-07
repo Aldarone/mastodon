@@ -13,6 +13,9 @@ services:
       - /etc/letsencrypt:/etc/certbot
       - ./public:/mastodon
       - mstdn-system:/mastodon/system
+    networks:
+      - external_network
+      - internal_network
     ports:
       - "80:80"
       - "443:443"
@@ -57,8 +60,8 @@ services:
     networks:
       - external_network
       - internal_network
-    ports:
-      - "3000:3000"
+#    ports:
+#      - "3000:3000"
     depends_on:
       - db
       - redis
@@ -77,8 +80,8 @@ services:
     networks:
       - external_network
       - internal_network
-    ports:
-      - "4000:4000"
+#    ports:
+#      - "4000:4000"
     depends_on:
       - db
       - redis
