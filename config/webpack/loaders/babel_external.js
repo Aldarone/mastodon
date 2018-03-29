@@ -12,6 +12,7 @@ if (env === 'development') {
     loader: 'babel-loader',
     options: {
       babelrc: false,
+      compact: false,
       plugins: [
         'transform-react-remove-prop-types',
       ],
