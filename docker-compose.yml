@@ -7,7 +7,7 @@ volumes:
 services:
   nginx:
     restart: always
-    image: nginx:1.12.1
+    image: nginx:1.13.12
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/docroot:/var/www/certbot
@@ -41,16 +41,16 @@ services:
     volumes:
       - mstdn-redis:/data
 
-  es:
-    restart: always
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.3
-    environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    networks:
-      - internal_network
-### Uncomment to enable ES persistance
-    volumes:
-      - mstdn-elastic:/usr/share/elasticsearch/data
+#  es:
+#    restart: always
+#    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.3
+#    environment:
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    networks:
+#      - internal_network
+#### Uncomment to enable ES persistance
+#    volumes:
+#      - mstdn-elastic:/usr/share/elasticsearch/data
 
   web:
     build: .
