@@ -2,6 +2,7 @@
 
 const { length } = require('stringz');
 const { delegate } = require('rails-ujs');
+import emojify from '../mastodon/features/emoji/emoji';
 
 delegate(document, '#account_display_name', 'input', ({ target }) => {
   const nameCounter = document.querySelector('.name-counter');
@@ -20,7 +21,7 @@ delegate(document, '#account_note', 'input', ({ target }) => {
   const noteCounter = document.querySelector('.note-counter');
 
   if (noteCounter) {
-    noteCounter.textContent = 160 - length(target.value);
+    noteCounter.textContent = 500 - length(target.value);
   }
 });
 

@@ -67,8 +67,6 @@ services:
       - redis
 #      - es
     volumes:
-      - ./public/assets:/mastodon/public/assets
-      - ./public/packs:/mastodon/public/packs
       - mstdn-system:/mastodon/public/system
 
   streaming:
@@ -100,8 +98,6 @@ services:
       - internal_network
     volumes:
       - mstdn-system:/mastodon/public/system
-      - ./public/packs:/mastodon/public/packs
-
 ## Uncomment to enable federation with tor instances along with adding the following ENV variables
 ## http_proxy=http://privoxy:8118
 ## ALLOW_ACCESS_TO_HIDDEN_SERVICE=true
