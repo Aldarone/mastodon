@@ -178,7 +178,7 @@ class SwitchingColumnsArea extends React.PureComponent {
           <WrappedRoute path='/blocks' component={Blocks} content={children} componentParams={{ shouldUpdateScroll: this.shouldUpdateScroll }} />
           <WrappedRoute path='/domain_blocks' component={DomainBlocks} content={children} componentParams={{ shouldUpdateScroll: this.shouldUpdateScroll }} />
           <WrappedRoute path='/mutes' component={Mutes} content={children} componentParams={{ shouldUpdateScroll: this.shouldUpdateScroll }} />
-          <WrappedRoute path='/lists' component={Lists} content={children} />
+          <WrappedRoute path='/lists' component={Lists} content={children} componentParams={{ shouldUpdateScroll: this.shouldUpdateScroll }} />
           <WrappedRoute path='/suggestions' component={Suggestions} content={children} />
 
           <WrappedRoute component={GenericNotFound} content={children} />
