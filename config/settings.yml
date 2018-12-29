@@ -15,6 +15,7 @@ defaults: &defaults
   site_contact_username: ''
   site_contact_email: ''
   open_registrations: true
+  profile_directory: true
   closed_registrations_message: ''
   open_deletion: true
   timeline_preview: false
@@ -33,8 +34,10 @@ defaults: &defaults
   reduce_motion: false
   system_font_ui: false
   noindex: false
+  hide_followers_count: false
   flavour: 'glitch'
   skin: 'default'
+  aggregate_reblogs: true
   notification_emails:
     follow: false
     reblog: false
