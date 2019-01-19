@@ -182,6 +182,7 @@ export default class UI extends React.Component {
     e.preventDefault();
 
     this.setState({ draggingOver: false });
+    this.dragTargets = [];
 
     if (e.dataTransfer && e.dataTransfer.files.length === 1) {
       this.props.dispatch(uploadCompose(e.dataTransfer.files));
@@ -303,7 +304,7 @@ export default class UI extends React.Component {
   }
 
   setColumnsAreaRef = c => {
-    this.columnsAreaNode = c.getWrappedInstance().getWrappedInstance();
+    this.columnsAreaNode = c.getWrappedInstance();
   }
 
   handleHotkeyNew = e => {

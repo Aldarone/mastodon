@@ -135,7 +135,7 @@ class SwitchingColumnsArea extends React.PureComponent {
   });
 
   setRef = c => {
-    this.node = c.getWrappedInstance().getWrappedInstance();
+    this.node = c.getWrappedInstance();
   }
 
   render () {
@@ -261,6 +261,7 @@ class UI extends React.PureComponent {
     e.preventDefault();
 
     this.setState({ draggingOver: false });
+    this.dragTargets = [];
 
     if (e.dataTransfer && e.dataTransfer.files.length === 1) {
       this.props.dispatch(uploadCompose(e.dataTransfer.files));

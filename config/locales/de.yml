@@ -70,6 +70,9 @@ de:
       moderator: Moderator
     unfollow: Entfolgen
   admin:
+    account_actions:
+      action: Aktion ausführen
+      title: Moderationsaktion auf %{acct} ausführen
     account_moderation_notes:
       create: Notiz erstellen
       created_msg: Moderationsnotiz erfolgreich erstellt!
@@ -89,6 +92,7 @@ de:
       confirm: Bestätigen
       confirmed: Bestätigt
       confirming: Bestätigung
+      deleted: Gelöscht
       demote: Degradieren
       disable: Ausschalten
       disable_two_factor_authentication: 2FA abschalten
@@ -102,10 +106,14 @@ de:
       enabled: Freigegeben
       feed_url: Feed-URL
       followers: Folger
+      followers_local: "(%{local} lokal)"
       followers_url: URL des Folgenden
       follows: Folgt
+      header: Header
       inbox_url: Posteingangs-URL
+      invited_by: Eingeladen von
       ip: IP-Adresse
+      joined: Beigetreten
       location:
         all: Alle
         local: Lokal
@@ -132,8 +140,9 @@ de:
       protocol: Protokoll
       public: Öffentlich
       push_subscription_expires: PuSH-Abonnement läuft aus
-      redownload: Avatar neu laden
+      redownload: Profil neu laden
       remove_avatar: Profilbild entfernen
+      remove_header: Header entfernen
       resend_confirmation:
         already_confirmed: Diese:r Benutzer:in wurde bereits bestätigt
         send: Bestätigungsmail erneut senden
@@ -149,11 +158,10 @@ de:
         user: Nutzer
       salmon_url: Salmon-URL
       search: Suche
-      shared_inbox_url: Geteilter Posteingang URL
+      shared_inbox_url: Geteilte Posteingang-URL
       show:
-        created_reports: Meldungen durch dieses Konto
-        report: Meldung
-        targeted_reports: Meldungen über dieses Konto
+        created_reports: Erstellte Beschwerdemeldungen
+        targeted_reports: Beschwerdemeldungen von anderen
       silence: Stummschalten
       silenced: Stummgeschaltet
       statuses: Beiträge
@@ -165,12 +173,14 @@ de:
       undo_suspension: Sperre zurücknehmen
       unsubscribe: Abbestellen
       username: Profilname
+      warn: Warnen
       web: Web
     action_logs:
       actions:
         assigned_to_self_report: "%{name} hat sich die Meldung %{target} selbst zugewiesen"
         change_email_user: "%{name} hat die E-Mail-Adresse des Nutzers %{target} geändert"
         confirm_user: "%{name} hat die E-Mail-Adresse von %{target} bestätigt"
+        create_account_warning: "%{name} hat eine Warnung an %{target} gesendet"
         create_custom_emoji: "%{name} hat neues Emoji %{target} hochgeladen"
         create_domain_block: "%{name} hat die Domain %{target} blockiert"
         create_email_domain_block: "%{name} hat die E-Mail-Domain %{target} geblacklistet"
@@ -247,7 +257,7 @@ de:
       week_users_active: Aktiv diese Woche
       week_users_new: Benutzer:innen diese Woche
     domain_blocks:
-      add_new: Neu hinzufügen
+      add_new: Neue Domainblockade hinzufügen
       created_msg: Die Domain-Blockade wird nun durchgeführt
       destroyed_msg: Die Domain-Blockade wurde rückgängig gemacht
       domain: Domain
@@ -264,11 +274,11 @@ de:
       reject_media_hint: Entfernt lokal gespeicherte Mediendateien und verhindert deren künftiges Herunterladen. Für Sperren irrelevant
       reject_reports: Meldungen ablehnen
       reject_reports_hint: Ignoriere alle Meldungen von dieser Domain. Irrelevant für Sperrungen
-      severities:
-        noop: Kein
-        silence: Stummschaltung
-        suspend: Sperren
-      severity: Schweregrad
+      rejecting_media: Mediendateien ablehnen
+      rejecting_reports: Beschwerdemeldungen ablehnen
+      severity:
+        silence: stummgeschaltet
+        suspend: gesperrt
       show:
         affected_accounts:
           one: Ein Konto in der Datenbank betroffen
@@ -278,8 +288,7 @@ de:
           suspend: Alle existierenden Konten dieser Domain entsperren
         title: Domain-Blockade für %{domain} zurücknehmen
         undo: Zurücknehmen
-      title: Domain-Blockaden
-      undo: Zurücknehmen
+      undo: Domainblockade zurücknehmen
     email_domain_blocks:
       add_new: Neue hinzufügen
       created_msg: E-Mail-Domain-Blockade erfolgreich erstellt
@@ -290,12 +299,24 @@ de:
         create: Blockade erstellen
         title: Neue E-Mail-Domain-Blockade
       title: E-Mail-Domain-Blockade
+    followers:
+      back_to_account: Zurück zum Account
+      title: "%{acct}'s Follower"
     instances:
-      account_count: Bekannte Konten
-      domain_name: Domain
-      reset: Zurücksetzen
-      search: Suchen
-      title: Bekannte Instanzen
+      delivery_available: Zustellung ist verfügbar
+      known_accounts:
+        one: "%{count} bekannter Account"
+        other: "%{count} bekannte Accounts"
+      moderation:
+        all: Alle
+        limited: Limitiert
+        title: Moderation
+      title: Föderation
+      total_blocked_by_us: Von uns gesperrt
+      total_followed_by_them: Gefolgt von denen
+      total_followed_by_us: Gefolgt von uns
+      total_reported: Beschwerdemeldungen über sie
+      total_storage: Medienanhänge
     invites:
       deactivate_all: Alle deaktivieren
       filter:
@@ -448,6 +469,12 @@ de:
       unhide: Zeige in Verzeichnis
       visible: Sichtbar
     title: Administration
+    warning_presets:
+      add_new: Neu hinzufügen
+      delete: Löschen
+      edit: Bearbeiten
+      edit_preset: Warnungsvorlage bearbeiten
+      title: Warnungsvorlagen verwalten
   admin_mailer:
     new_report:
       body: "%{reporter} hat %{target} gemeldet"
@@ -554,7 +581,9 @@ de:
       size: Größe
     blocks: Du hast blockiert
     csv: CSV
+    domain_blocks: Domainblockaden
     follows: Du folgst
+    lists: Listen
     mutes: Du hast stummgeschaltet
     storage: Medienspeicher
   filters:
@@ -703,13 +732,25 @@ de:
     no_account_html: Noch keinen Account? Du kannst dich <a href='%{sign_up_path}' target='_blank'>hier anmelden</a>
     proceed: Weiter
     prompt: 'Du wirst dieser Person folgen:'
+    reason_html: "<strong>Warum ist dieser Schritt erforderlich?</strong><code>%{instance}</code> ist möglicherweise nicht der Server auf dem du registriert bist, also müssen wir dich erst auf deinen Heimserver weiterleiten."
   remote_interaction:
-    proceed: Fortfahren zum Interagieren
-    prompt: 'Du wirst mit diesem Beitrag interagieren:'
+    favourite:
+      proceed: Fortfahren zum Favorisieren
+      prompt: 'Du möchtest diesen Beitrag favorisieren:'
+    reblog:
+      proceed: Fortfahren zum Teilen
+      prompt: 'Du möchtest diesen Beitrag teilen:'
+    reply:
+      proceed: Fortfahren zum Antworten
+      prompt: 'Du möchtest auf diesen Beitrag antworten:'
   remote_unfollow:
     error: Fehler
     title: Titel
     unfollowed: Entfolgt
+  scheduled_statuses:
+    over_daily_limit: Du hast das Limit für geplante Beiträge, dass %{limit} beträgt, für heute erreicht
+    over_total_limit: Du hast das Limit für geplante Beiträge, dass %{limit} beträgt, erreicht
+    too_soon: Das geplante Datum muss in der Zukunft liegen
   sessions:
     activity: Letzte Aktivität
     browser: Browser
@@ -915,6 +956,22 @@ de:
       explanation: Du hast ein vollständiges Backup von deinem Mastodon-Account angefragt. Es kann jetzt heruntergeladen werden!
       subject: Dein Archiv ist bereit zum Download
       title: Archiv-Download
+    warning:
+      explanation:
+        disable: Solange dein Account eingefroren ist sind deine Benutzerdaten intakt, aber du kannst nichts tun bis dein Account entsperrt wurde.
+        silence: Solange dein Account limitiert ist können nur Leute, die dir bereits folgen deine Beiträge auf dem Server sehen und es könnte sein, dass du von verschiedenen öffentlichen Listungen ausgeschlossen wirst. Andererseits können andere dir manuell folgen.
+        suspend: Dein Account wurde gesperrt und alle deine Beiträge und hochgeladenen Medien wurden unwiderruflich vom Server und anderen Servern wo du Follower hattest gelöscht.
+      review_server_policies: Serverrichtlinien ansehen
+      subject:
+        disable: Dein Account %{acct} wurde eingefroren
+        none: Warnung für %{acct}
+        silence: Dein Account %{acct} wurde limitiert
+        suspend: Dein Account %{acct} wurde gesperrt
+      title:
+        disable: Account eingefroren
+        none: Warnung
+        silence: Account limitiert
+        suspend: Account gesperrt
     welcome:
       edit_profile_action: Profil einstellen
       edit_profile_step: Du kannst dein Profil anpassen, indem du einen Avatar oder ein Titelbild hochlädst oder deinen Anzeigenamen änderst und mehr. Wenn du deine Follower vorher überprüfen möchtest, bevor sie dir folgen können, dann kannst du dein Profil sperren.
