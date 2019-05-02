@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'singleton'
+require 'kramdown'
 require_relative './sanitize_config'
 
 class Formatter
@@ -26,7 +27,7 @@ class Formatter
     return '' if raw_content.blank?
 
     unless status.local?
-      html = reformat(raw_content)
+      html = sanitize(raw_content, Sanitize::Config::MASTODON_STRICT)
       html = encode_custom_emojis(html, status.emojis, options[:autoplay]) if options[:custom_emojify]
       return html.html_safe # rubocop:disable Rails/OutputSafety
     end
@@ -36,23 +37,68 @@ class Formatter
 
     html = raw_content
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
+    html = format_markdown(html)
     html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis, options[:autoplay]) if options[:custom_emojify]
-    html = simple_format(html, {}, sanitize: false)
-    html = html.delete("\n")
 
     html.html_safe # rubocop:disable Rails/OutputSafety
   end
 
-  def reformat(html)
-    sanitize(html, Sanitize::Config::MASTODON_STRICT)
+  class APRender < Redcarpet::Render::Safe
+    include Redcarpet::Render::SmartyPants
+
+    def autolink(link, link_type)
+      return link if link_type == :email
+      link = CGI::escapeHTML(link)
+      return %(<a href="#{link}" target="_blank" rel="nofollow noopener">#{link}</a>)
+    end
+  end
+
+  def format_markdown(html, me = false)
+    extensions = {
+      autolink: true,
+      no_intra_emphasis: true,
+      fenced_code_blocks: true,
+      disable_indented_code_blocks: true,
+      strikethrough: true,
+      lax_spacing: true,
+      space_after_headers: true,
+    #  superscript: true,
+      underline: true,
+      highlight: true,
+      footnotes: true
+    }
+
+    options = {
+      link_attributes: { target: '_blank', rel: 'nofollow noopener' },
+      no_styles: true,
+      hard_wrap: true
+    }
+
+    options[:link_attributes][:rel] += ' me' if me
+
+    renderer = APRender.new(options)
+    markdown = Redcarpet::Markdown.new(renderer, extensions)
+    html = reformat(markdown.render(html))
+    html = html.gsub("\r\n", "\n").gsub("\r", "\n")
+    code_safe_strip(html)
+    #markdown.render(html)
+  end
+
+  def code_safe_strip(html, char="\n")
+    html = html.split(/(<code[ >].*?\/code>)/m)
+    html.each_slice(2) { |part| part[0].delete!(char) }
+    html.join
+  end
+
+  def reformat(html, escape = true)
+    html = sanitize(html, Sanitize::Config::MASTODON_STRICT)
   end
 
   def plaintext(status)
     return status.text if status.local?
 
-    text = status.text.gsub(/(<br \/>|<br>|<\/p>)+/) { |match| "#{match}\n" }
-    strip_tags(text)
+    Kramdown::Document.new(html, input: :html).to_kramdown
   end
 
   def simplified_format(account, **options)
@@ -66,7 +112,7 @@ class Formatter
   end
 
   def format_spoiler(status, **options)
-    html = encode(status.spoiler_text)
+    html = format_markdown(status.spoiler_text)
     html = encode_custom_emojis(html, status.emojis, options[:autoplay])
     html.html_safe # rubocop:disable Rails/OutputSafety
   end
@@ -118,7 +164,7 @@ class Formatter
 
     rewrite(html.dup, entities) do |entity|
       if entity[:url]
-        link_to_url(entity, options)
+        entity[:url]
       elsif entity[:hashtag]
         link_to_hashtag(entity)
       elsif entity[:screen_name]
@@ -199,12 +245,12 @@ class Formatter
 
     last_index = entities.reduce(0) do |index, entity|
       indices = entity.respond_to?(:indices) ? entity.indices : entity[:indices]
-      result << encode(chars[index...indices.first].join)
+      result << chars[index...indices.first].join
       result << yield(entity)
       indices.last
     end
 
-    result << encode(chars[last_index..-1].join)
+    result << chars[last_index..-1].join
 
     result.flatten.join
   end
@@ -264,7 +310,7 @@ class Formatter
 
     Twitter::Autolink.send(:link_to_text, entity, link_html(entity[:url]), url, html_attrs)
   rescue Addressable::URI::InvalidURIError, IDN::Idna::IdnaError
-    encode(entity[:url])
+    entity[:url]
   end
 
   def link_to_mention(entity, linkable_accounts)
