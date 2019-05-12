@@ -149,8 +149,3 @@ group :production do
 end
 
 gem 'concurrent-ruby', require: false
-
-
-gem "redcarpet", "~> 3.4"
-
-gem "kramdown", "~> 2.1"
