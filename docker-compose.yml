@@ -2,7 +2,7 @@ version: '3'
 volumes: 
     mstdn-postgres:
     mstdn-redis:
-    mstdn-system:
+#    mstdn-system:
 services:
   nginx:
     restart: always
@@ -12,7 +12,7 @@ services:
       - ./nginx/docroot:/var/www/certbot
       - /etc/letsencrypt:/etc/certbot
       - ./public:/mastodon
-      - mstdn-system:/mastodon/system
+#      - mstdn-system:/mastodon/system
     networks:
       - external_network
       - internal_network
@@ -71,8 +71,8 @@ services:
       - db
       - redis
 #      - es
-    volumes:
-      - mstdn-system:/mastodon/public/system
+#    volumes:
+#      - mstdn-system:/mastodon/public/system
 
   streaming:
     build: .
@@ -103,8 +103,8 @@ services:
     networks:
       - external_network
       - internal_network
-    volumes:
-      - mstdn-system:/mastodon/public/system
+#    volumes:
+#       - mstdn-system:/mastodon/public/system
 ## Uncomment to enable federation with tor instances along with adding the following ENV variables
 ## http_proxy=http://privoxy:8118
 ## ALLOW_ACCESS_TO_HIDDEN_SERVICE=true
